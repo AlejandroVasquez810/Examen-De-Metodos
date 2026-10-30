@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
+<head>
+<!-- 2026-10-20 mar 09:29 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="I.S.C. Juan Reynoso Elias" />
+<meta name="generator" content="Org Mode" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300..800;1,300..800&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body {
+font-family: 'Source Code Pro', monospace;
+font-optical-sizing: auto;
+font-weight: 400;
+font-style: normal;
+line-height: 1.8;
+font-size: 18px;
+color: #24292e;
+max-width: 900px;
+margin: 40px auto;
+padding: 0 20px;
+background-color: #fbfbfa;
+}
+h1, h2, h3, h4 {
+color: #111418;
+font-weight: 700;
+margin-top: 1.5em;
+}
+pre, code {
+font-family: 'Source Code Pro', monospace;
+background-color: #f1f3f5;
+border-radius: 4px;
+}
+pre {
+padding: 15px;
+overflow-x: auto;
+border: 1px solid #e1e4e8;
+}
+code {
+padding: 2px 6px;
+font-size: 0.9em;
+}
+table {
+border-collapse: collapse;
+width: 100%;
+margin: 20px 0;
+}
+th, td {
+border: 1px solid #dfe2e5;
+padding: 10px 12px;
+text-align: left;
+}
+th {
+background-color: #f6f8fa;
+}
+blockquote {
+border-left: 4px solid #dfe2e5;
+margin: 0;
+padding-left: 15px;
+color: #6a737d;
+}
+</style>
+</head>
+<body>
+<div id="content" class="content">
+<div id="table-of-contents" role="doc-toc">
+<h2>&Iacute;ndice</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgdf4aa95">Análisis de regresión múltiple</a>
+<ul>
+<li><a href="#orgbc1ea3c">Ver ejercicio de la página 14 y 15, análisis de regresión múltiple:</a></li>
+<li><a href="#org012821d">Resolver el ejercicio en R</a>
+<ul>
+<li><a href="#org321d758">Paso 1: Crear el conjunto de datos</a></li>
+<li><a href="#orge269ee5">Paso 2: Crear el Data Frame</a></li>
+<li><a href="#orgc813e26">Paso 3:  Ajustar el modelo de regresión múltiple usando lm()</a></li>
+<li><a href="#orgc6420e4">Paso 4:  Ver los resultados principales del modelo</a></li>
+<li><a href="#orgdddef46">Paso 5:  Obtener un resumen estadístico detallado</a></li>
+<li><a href="#org68c0e16">Paso 6:  Calcular el precio pronosticado</a></li>
+<li><a href="#orge9e6166">Paso 7: Ver el precio pronosticado</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgdf4aa95" class="outline-2">
+<h2 id="orgdf4aa95">Análisis de regresión múltiple</h2>
+<div class="outline-text-2" id="text-orgdf4aa95">
+<p>
+El modelo de regresión múltiple es una extensión práctica del modelo que vimos en la clase anterior.
+Nos permite construir un modelo con varias variables independientes.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R">
+Y = b0 &#8203;+ b1&#8203;X1 &#8203;+ b2&#8203;X2 &#8203;+ ... + bk&#8203;Xk
+
+</pre>
+</div>
+</div>
+<div id="outline-container-orgbc1ea3c" class="outline-3">
+<h3 id="orgbc1ea3c">Ver ejercicio de la página 14 y 15, análisis de regresión múltiple:</h3>
+<div class="outline-text-3" id="text-orgbc1ea3c">
+<p>
+Considere el caso de Jenny Wilson Realty, una compañía de bienes raíces en Montgomery, Ala-
+bama. Jenny Wilson, dueña y corredora de esta compañía, quiere desarrollar un modelo para determi-
+nar los precios listados sugeridos para las casas con base en el tamaño y la antigüedad de estas.
+Selecciona una muestra de casas que se hayan vendido recientemente en un área específica y registra
+el precio de venta, los pies cuadrados de construcción y la antigüedad de cada una; además, regis-
+tra la condición (buena, excelente o nueva) como se indica en la tabla:
+</p>
+</div>
+</div>
+<div id="outline-container-org012821d" class="outline-3">
+<h3 id="org012821d">Resolver el ejercicio en R</h3>
+<div class="outline-text-3" id="text-org012821d">
+</div>
+<div id="outline-container-org321d758" class="outline-4">
+<h4 id="org321d758">Paso 1: Crear el conjunto de datos</h4>
+<div class="outline-text-4" id="text-org321d758">
+<div class="org-src-container">
+<pre class="src src-R">precio <span style="color: #268bd2; font-weight: bold;">&lt;-</span> c(95000, 119000, 124800, 135000, 142800, 145000, 159000, 
+            165000, 182000, 183000, 200000, 211000, 215000, 219000)
+
+pies_cuadrados <span style="color: #268bd2; font-weight: bold;">&lt;-</span> c(1926, 2069, 1720, 1396, 1706, 1847, 1950, 
+                    2323, 2285, 3752, 2300, 2525, 3800, 1740)
+
+antiguedad <span style="color: #268bd2; font-weight: bold;">&lt;-</span> c(30, 40, 30, 15, 32, 38, 27, 30, 26, 35, 18, 17, 40, 12)  
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge269ee5" class="outline-4">
+<h4 id="orge269ee5">Paso 2: Crear el Data Frame</h4>
+<div class="outline-text-4" id="text-orge269ee5">
+<div class="org-src-container">
+<pre class="src src-R">datos_casas <span style="color: #268bd2; font-weight: bold;">&lt;-</span> data.frame(precio, pies_cuadrados, antiguedad)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc813e26" class="outline-4">
+<h4 id="orgc813e26">Paso 3:  Ajustar el modelo de regresión múltiple usando lm()</h4>
+<div class="outline-text-4" id="text-orgc813e26">
+<p>
+Sintaxis: variable-dependiente ~ variable-independiente1 + variable-independiente2
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-R">modelo_multi <span style="color: #268bd2; font-weight: bold;">&lt;-</span> lm(precio ~ pies_cuadrados + antiguedad, data = datos_casas)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc6420e4" class="outline-4">
+<h4 id="orgc6420e4">Paso 4:  Ver los resultados principales del modelo</h4>
+<div class="outline-text-4" id="text-orgc6420e4">
+<div class="org-src-container">
+<pre class="src src-R">print(modelo_multi)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdddef46" class="outline-4">
+<h4 id="orgdddef46">Paso 5:  Obtener un resumen estadístico detallado</h4>
+<div class="outline-text-4" id="text-orgdddef46">
+<div class="org-src-container">
+<pre class="src src-R">summary(modelo_multi)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org68c0e16" class="outline-4">
+<h4 id="org68c0e16">Paso 6:  Calcular el precio pronosticado</h4>
+<div class="outline-text-4" id="text-org68c0e16">
+<p>
+Crear un nuevo data frame con los datos de una casa a pronosticar
+Ejemplo: Una casa de 2,000 pies cuadrados y 10 años de antigüedad
+</p>
+
+<div class="org-src-container">
+<pre class="src src-R">nueva_casa <span style="color: #268bd2; font-weight: bold;">&lt;-</span> data.frame(pies_cuadrados = 2000, antiguedad = 10)
+</pre>
+</div>
+
+<p>
+Calcular el precio pronosticado
+</p>
+<div class="org-src-container">
+<pre class="src src-nil">precio_estimado &lt;- predict(modelo_multi, newdata = nueva_casa)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge9e6166" class="outline-4">
+<h4 id="orge9e6166">Paso 7: Ver el precio pronosticado</h4>
+<div class="outline-text-4" id="text-orge9e6166">
+<div class="org-src-container">
+<pre class="src src-r">precio_estimado
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Autor: I.S.C. Juan Reynoso Elias</p>
+<p class="date">Created: 2026-10-20 mar 09:29</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
